@@ -92,4 +92,6 @@ class png
 
 		return "\x89PNG\r\n\x1a\n".self::header($width, $height).self::chunk("IDAT", self::zlib_stream($lines)).self::chunk("IEND", '');
 	}
+}
+
 ?>
