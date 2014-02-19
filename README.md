@@ -1,0 +1,1 @@
+php port of http://mainisusuallyafunction.blogspot.com/2012/04/minimal-encoder-for-uncompressed-pngs.html
