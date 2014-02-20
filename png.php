@@ -4,6 +4,8 @@ define('MAX_DEFLATE', 0xffff);
 
 class png
 {
+	protected static $c = 3;
+
 	public static function rgb($r, $g, $b)
 	{
 		return chr($r).chr($g).chr($b);
@@ -26,7 +28,7 @@ class png
 
 	public static function header($width, $height)
 	{
-		return self::chunk("IHDR", self::be32($width).self::be32($height).chr(8).chr(2).chr(0).chr(0).chr(0));
+		return self::chunk("IHDR", self::be32($width).self::be32($height).chr(8).chr(self::$c == 4 ? 6 : 2).chr(0).chr(0).chr(0));
 	}
 
 	public static function deflate_block($data, $last = false)
@@ -80,9 +82,11 @@ class png
 		return ($s2 << 16) + $s1;
 	}
 
-	public static function make($width, $height, $data)
+	public static function make($width, $height, $data, $channels = 3)
 	{
-		$pieces = self::pieces($data, 3 * $width);
+		self::$c = $channels;
+
+		$pieces = self::pieces($data, self::$c * $width);
 		$lines = '';
 
 		foreach ($pieces as $p)
